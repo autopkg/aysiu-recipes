@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Identifier</key>
+	<string>com.github.aysiu.munki.legomindstorms</string>
+	<key>Input</key>
+	<dict>
+		<key>MUNKI_REPO_SUBDIR</key>
+		<string>apps/%NAME%</string>
+		<key>NAME</key>
+		<string>LegoMindstorms</string>
+		<key>pkginfo</key>
+		<dict>
+			<key>catalogs</key>
+			<array>
+				<string>testing</string>
+			</array>
+			<key>description</key>
+			<string>The Lego Mindstorms series of kits contain software and hardware to create customizable, programmable robots. They include an intelligent brick computer that controls the system, a set of modular sensors and motors, and Lego parts from the Technic line to create the mechanical systems.</string>
+			<key>display_name</key>
+			<string>LEGO Mindstorms</string>
+			<key>name</key>
+			<string>%NAME%</string>
+			<key>developer</key>
+			<string>LEGO</string>
+			<key>category</key>
+			<string>Development</string>
+			<key>unattended_install</key>
+			<true/>
+			<key>installs</key>
+				<array>
+					<dict>
+						<key>path</key>
+						<string>/Applications/LEGO MINDSTORMS EV3 Home Edition.app</string>
+						<key>type</key>
+						<string>file</string>
+					</dict>
+				</array>
+			<key>uninstall_method</key>
+			<string>uninstall_script</string>
+			<key>uninstall_script</key>
+			<string>#!/bin/bash
+			rm -r /Applications/LEGO\ MINDSTORMS\ EV3\ Home\ Edition.app
+			</string>
+		</dict>
+	</dict>
+	<key>ParentRecipe</key>
+	<string>com.github.aysiu.download.legomindstorms</string>
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Processor</key>
+			<string>MunkiImporter</string>
+			<key>Arguments</key>
+			<dict>
+				<key>pkg_path</key>
+				<string>%pathname%</string>
+				<key>repo_subdirectory</key>
+				<string>%MUNKI_REPO_SUBDIR%</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>
