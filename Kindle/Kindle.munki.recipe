@@ -23,7 +23,7 @@
 			<key>category</key>
 			<string>%MUNKI_CATEGORY%</string>
 			<key>description</key>
-			<string>The Kindle app gives users the ability to read Kindle books on a beautiful, easy-to-use interface. You’ll have access to over 1,000,000* books in the Kindle Store, including best sellers and new releases. Amazon Whispersync automatically syncs your last page read, bookmarks, notes, and highlights across devices (including Kindle), so you can pick up where you left off on another device.</string>
+			<string>The Kindle app gives users the ability to read Kindle books on a beautiful, easy-to-use interface. You’ll have access to over 1,000,000 books in the Kindle Store, including best sellers and new releases. Amazon Whispersync automatically syncs your last page read, bookmarks, notes, and highlights across devices (including Kindle), so you can pick up where you left off on another device.</string>
 			<key>developer</key>
 			<string>Amazon</string>
 			<key>display_name</key>
