@@ -3,7 +3,8 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Download recipe for mBlock</string>
+    <string>Download recipe for mBlock
+    Note: mBlock has no https download site, and it has no code signature to verify.</string>
     <key>Identifier</key>
     <string>com.github.aysiu.download.mBlock</string>
     <key>Input</key>
