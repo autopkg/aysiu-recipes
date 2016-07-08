@@ -3,7 +3,8 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Downloads latest Android File Transfer disk image.</string>
+    <string>Downloads latest Android File Transfer disk image. Note: Code signature verification cannot be added into this recipe
+    because the Android File Transfer.app still uses a version 1 signature.</string>
     <key>Identifier</key>
     <string>com.github.aysiu.download.androidfiletransfer</string>
     <key>Input</key>
