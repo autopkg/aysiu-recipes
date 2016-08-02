@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Download recipe for Scratch 2 Offline Editor</string>
+    <key>Identifier</key>
+    <string>com.github.aysiu.download.Scratch2</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>Scratch 2</string>
+        <key>baseurl</key>
+        <string>https://scratch.mit.edu</string>
+    </dict>
+    <key>MinimumVersion</key>
+    <string>0.2.9</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Processor</key>
+            <string>CURLTextSearcher</string>
+            <key>Arguments</key>
+            <dict>
+                <key>url</key>
+                <string>%baseurl%/scratchr2/static/sa/version.xml</string>
+                <key>re_pattern</key>
+                <string>(versionNumber&gt;(?P&lt;editor_version&gt;.*?)&lt;/versionNumber)</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>CURLDownloader</string>
+            <key>Arguments</key>
+            <dict>
+               <key>url</key>
+               <string>%baseurl%/scratchr2/static/sa/Scratch-%editor_version%.dmg </string>
+               <key>filename</key>
+               <string>%NAME%.dmg</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>Copier</string>
+         <key>Arguments</key>
+         <dict>
+               <key>destination_path</key>
+               <string>%RECIPE_CACHE_DIR%/%NAME%/%NAME%.app</string>
+            <key>source_path</key>
+               <string>%RECIPE_CACHE_DIR%/downloads/%NAME%.dmg/Install Scratch 2.app/Contents/Resources/Scratch 2</string>
+           </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>DmgCreator</string>
+            <key>Arguments</key>
+            <dict>
+                <key>dmg_root</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%/</string>
+                <key>dmg_path</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%.dmg</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>EndOfCheckPhase</string>
+        </dict>
+        <dict>
+    <key>Processor</key>
+    <string>CodeSignatureVerifier</string>
+    <key>Arguments</key>
+    <dict>
+        <key>input_path</key>
+        <string>%RECIPE_CACHE_DIR%/%NAME%/Scratch 2.app</string>
+        <key>requirement</key>
+        <string>identifier "edu.media.mit.Scratch2Editor" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = W7AR3WMP87</string>
+    </dict>
+</dict>
+    </array>
+</dict>
+</plist>
