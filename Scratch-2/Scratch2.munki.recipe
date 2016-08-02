@@ -32,6 +32,15 @@
             <true/>
             <key>installer_type</key>
             <string>copy_from_dmg</string>
+        	<key>installs</key>
+	        <array>
+		        <dict>
+			        <key>path</key>
+			        <string>/Applications/Scratch 2.app/Contents/Info.plist</string>
+			        <key>type</key>
+			        <string>plist</string>
+		        </dict>
+	        </array>
             <key>items_to_copy</key>
             <array>
                <dict>
