@@ -24,7 +24,7 @@
                 <key>url</key>
                 <string>http://www.mblock.cc/download/</string>
                 <key>re_pattern</key>
-                <string>(?P&lt;url&gt;http.*?zip)</string>
+                <string>(?P&lt;url&gt;http.*?mBlock_mac.*?zip)</string>
             </dict>
         </dict>
         <dict>
