@@ -40,17 +40,13 @@
             <key>filename</key>
             <string>%NAME%.zip</string>
         </dict>
-		<dict>
-			<key>Processor</key>
-			<string>Unarchiver</string>
-            <key>purge_destination</key>
-            <true/>
-            <key>archive_path</key>
-			<string>%RECIPE_CACHE_DIR%/downloads/%NAME%.zip</string>
-			<key>destination_path</key>
-			<string>%RECIPE_CACHE_DIR%/%NAME%/</string>
-		</dict>
-		<dict>
+	<dict>
+		<key>Processor</key>
+		<string>Unarchiver</string>
+	        <key>purge_destination</key>
+            	<true/>
+	</dict>
+	<dict>
             <key>Processor</key>
             <string>DmgCreator</string>
             <key>Arguments</key>
