@@ -23,7 +23,7 @@
                 <key>url</key>
                 <string>http://www.lego.com/en-us/mindstorms/downloads/download-software</string>
                 <key>re_pattern</key>
-                <string>(?P&lt;url&gt;http.*?dmg)</string>
+                <string>(?P&lt;url&gt;http://esd.lego.com.edgesuite.net/digitaldelivery/mindstorms/.*?/public/LMS-EV3-OSX-ENUS-(?P&lt;version&gt;.*?)-full-setup.dmg)</string>
             </dict>
         </dict>
         <dict>
