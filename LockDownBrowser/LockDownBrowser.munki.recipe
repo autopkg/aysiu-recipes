@@ -3,16 +3,13 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Imports Respondus LockDown Browser into Munki.
-    Change the file name to match your institution ID</string>
+    <string>Imports Respondus LockDown Browser into Munki.</string>
     <key>Identifier</key>
     <string>com.github.aysiu.munki.LockDownBrowser</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
         <string>LockDownBrowser</string>
-        <key>INSTITUTIONID</key>
-        <string>FILLINYOURINSTITUTIONID</string>
         <key>MUNKI_REPO_SUBDIR</key>
         <string>apps</string>
         <key>pkginfo</key>
@@ -53,11 +50,20 @@
                 </dict>
             </dict>
         </dict>
-        <dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>pattern</key>
+				<string>%RECIPE_CACHE_DIR%/%NAME%/Install*.pkg</string>
+			</dict>
+			<key>Processor</key>
+			<string>FileFinder</string>
+		</dict>
+		<dict>
             <key>Arguments</key>
             <dict>
                 <key>pkg_path</key>
-                <string>%RECIPE_CACHE_DIR%/%NAME%/Install Respondus LockDown Browser (x64c) %INSTITUTIONID%0.pkg</string>
+                <string>%found_filename%</string>
                 <key>repo_subdirectory</key>
                 <string>%MUNKI_REPO_SUBDIR%</string>
             </dict>
