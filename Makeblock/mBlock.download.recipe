@@ -54,7 +54,7 @@
 	        <key>destination_path</key>
 	        <string>%RECIPE_CACHE_DIR%/%NAME%-dmg/%NAME%.app</string>
 	        <key>source_path</key>
-	        <string>%RECIPE_CACHE_DIR%/%NAME%/%NAME%*.app</string>
+	        <string>%RECIPE_CACHE_DIR%/%NAME%/%NAME%_v%version%.app</string>
 	        <key>overwrite</key>
 	        <true/>
 	    </dict>
