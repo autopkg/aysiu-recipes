@@ -31,7 +31,7 @@
                 <key>url</key>
                 <string>http://www.mblock.cc/download/</string>
                 <key>re_pattern</key>
-                <string>window.open\(\"(?P&lt;url&gt;http://download.makeblock.com/mblock/.*?/mBlock_mac_V(?P&lt;version&gt;.*?).zip)</string>
+                <string>window.open\(\"(?P&lt;url&gt;http:\/\/download.makeblock.com\/mblock\/.*?\/mBlock_mac_v(?P&lt;version&gt;.*?).zip)</string>
             </dict>
         </dict>
         <dict>
