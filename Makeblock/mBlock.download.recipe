@@ -27,14 +27,14 @@
                 <dict>
                         <key>user-agent</key>
                         <string>%USER_AGENT%</string>
-		</dict>
+				</dict>
                 <key>url</key>
                 <string>http://www.mblock.cc/download/</string>
-		<key>re_flags</key>
-		<array>
-			<string>IGNORECASE</string>
-		</array>
-		<key>re_pattern</key>
+				<key>re_flags</key>
+				<array>
+					<string>IGNORECASE</string>
+				</array>
+				<key>re_pattern</key>
                 <string>window.open\(\"(?P&lt;url&gt;http:\/\/download.makeblock.com\/mblock\/.*?\/mBlock_mac_v(?P&lt;version&gt;.*?).zip)</string>
             </dict>
         </dict>
@@ -44,37 +44,46 @@
             <key>filename</key>
             <string>%NAME%.zip</string>
         </dict>
-	<dict>
-		<key>Processor</key>
-		<string>Unarchiver</string>
-	        <key>purge_destination</key>
-            	<true/>
-	</dict>
-	<dict>
-	    <key>Processor</key>
-	    <string>Copier</string>
-	    <key>Arguments</key>
-	    <dict>
-	        <key>destination_path</key>
-	        <string>%RECIPE_CACHE_DIR%/%NAME%-dmg/%NAME%.app</string>
-	        <key>source_path</key>
-	        <string>%RECIPE_CACHE_DIR%/%NAME%/%NAME%_*.app</string>
-	        <key>overwrite</key>
-	        <true/>
-	    </dict>
-	</dict>
-	<dict>
-		<key>Processor</key>
-		<string>PathDeleter</string>
-		<key>Arguments</key>
 		<dict>
-			<key>path_list</key>
-			<array>
-				<string>%RECIPE_CACHE_DIR%/%NAME%/%NAME%_*.app</string>
-			</array>
+			<key>Processor</key>
+			<string>Unarchiver</string>
+	        <key>purge_destination</key>
+            <true/>
 		</dict>
-	</dict>
-	<dict>
+		<dict>
+		<key>Arguments</key>
+			<dict>
+				<key>pattern</key>
+				<string>%RECIPE_CACHE_DIR%/%NAME%/%NAME%*.app</string>
+			</dict>
+			<key>Processor</key>
+			<string>FileFinder</string>
+		</dict>
+		<dict>
+	    	<key>Processor</key>
+	    	<string>Copier</string>
+	    	<key>Arguments</key>
+	    	<dict>
+	        	<key>destination_path</key>
+	        	<string>%RECIPE_CACHE_DIR%/%NAME%-dmg/%NAME%.app</string>
+	        	<key>source_path</key>
+	        	<string>%found_filename%</string>
+	        	<key>overwrite</key>
+	        	<true/>
+	    	</dict>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>PathDeleter</string>
+			<key>Arguments</key>
+			<dict>
+				<key>path_list</key>
+				<array>
+					<string>%found_filename%</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
         	<key>Processor</key>
         	<string>DmgCreator</string>
         	<key>Arguments</key>
