@@ -64,16 +64,24 @@
 	    </dict>
 	</dict>
 	<dict>
-        <key>Processor</key>
-        <string>DmgCreator</string>
-        <key>Arguments</key>
-            <dict>
-                <key>dmg_root</key>
-                <string>%RECIPE_CACHE_DIR%/%NAME%-dmg/</string>
-                <key>dmg_path</key>
-                <string>%RECIPE_CACHE_DIR%/%NAME%.dmg</string>
-            </dict>
-    </dict>
+		<key>Processor</key>
+		<string>PathDeleter</string>
+		<key>path_list</key>
+		<array>
+			<string>%RECIPE_CACHE_DIR%/%NAME%/</string>
+		</array>
+	</dict>
+	<dict>
+        	<key>Processor</key>
+        	<string>DmgCreator</string>
+        	<key>Arguments</key>
+            	<dict>
+                	<key>dmg_root</key>
+                	<string>%RECIPE_CACHE_DIR%/%NAME%-dmg/</string>
+                	<key>dmg_path</key>
+                	<string>%RECIPE_CACHE_DIR%/%NAME%.dmg</string>
+            	</dict>
+    	</dict>
         <dict>
             <key>Processor</key>
             <string>EndOfCheckPhase</string>
