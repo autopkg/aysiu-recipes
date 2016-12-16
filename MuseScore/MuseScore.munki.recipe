@@ -28,6 +28,8 @@
 			<string>Werner Schweer, Nicolas Froment, Thomas Bonte, and others.</string>
 			<key>display_name</key>
 			<string>MuseScore</string>
+			<key>version</key>
+			<string>%version%</string>
 			<key>name</key>
 			<string>%NAME%</string>
 			<key>unattended_install</key>
