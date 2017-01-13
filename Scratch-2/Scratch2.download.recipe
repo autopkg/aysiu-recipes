@@ -25,7 +25,7 @@
                 <key>url</key>
                 <string>%baseurl%/scratchr2/static/sa/version.xml</string>
                 <key>re_pattern</key>
-                <string>(versionNumber&gt;(?P&lt;editor_version&gt;.*?)&lt;/versionNumber)</string>
+                <string>(versionNumber&gt;(?P&lt;editor_version&gt;.*?)&lt;\/versionNumber)</string>
             </dict>
         </dict>
         <dict>
