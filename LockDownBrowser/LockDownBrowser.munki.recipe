@@ -119,6 +119,10 @@
             <key>Processor</key>
             <string>MunkiInstallsItemsCreator</string>
         </dict>
+        <dict>
+            <key>Processor</key>
+            <string>MunkiPkginfoMerger</string>
+        </dict>
 	<dict>
             <key>Processor</key>
             <string>MunkiPkginfoMerger</string>
