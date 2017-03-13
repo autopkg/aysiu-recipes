@@ -138,7 +138,14 @@
                 <dict>
                     <key>version</key>
                     <string>%version%</string>
-					<key>receipts</key>
+			        <key>receipts</key>
+                    <array>
+                        <dict>
+			                <key>packageid</key>
+			                <string>com.respondus.LockdownBrowser.standard.pkg</string>
+			                <key>version</key>
+			                <string>%version%</string>
+                        </dict>
 					</array>
                 </dict>
             </dict>
