@@ -95,6 +95,17 @@
             <key>Processor</key>
             <string>PkgPayloadUnpacker</string>
         </dict>
+	<dict>
+		<key>Arguments</key>
+		<dict>
+			<key>source</key>
+			<string>%RECIPE_CACHE_DIR%/application_payload/Applications/LockDown Browser (unconfigured).app</string>
+			<key>target</key>
+			<string>%RECIPE_CACHE_DIR%/application_payload/Applications/LockDown Browser.app</string>
+		</dict>
+		<key>Processor</key>
+		<string>FileMover</string>
+	</dict>
         <dict>
             <key>Arguments</key>
             <dict>
