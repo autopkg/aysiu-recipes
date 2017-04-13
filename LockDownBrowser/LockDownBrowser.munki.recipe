@@ -38,33 +38,20 @@
     <string>com.github.aysiu.download.LockDownBrowser</string>
     <key>Process</key>
     <array>
-	<dict>
-		<key>Arguments</key>
-		<dict>
-			<key>pattern</key>
-			<string>%RECIPE_CACHE_DIR%/%NAME%/Install*.pkg</string>
-		</dict>
-		<key>Processor</key>
-		<string>FileFinder</string>
-	</dict>
-	<dict>
-		<key>Arguments</key>
-		<dict>
-			<key>Comment</key>
-			<string>By default, the installer .pkg is Install Respondus, etc. with the institution ID at the end. This just cleans up the name to be the name of the item and then the version number.</string>
-			<key>source</key>
-			<string>%found_filename%</string>
-			<key>target</key>
-			<string>%RECIPE_CACHE_DIR%/%NAME%/%NAME%-%version%.pkg</string>
-		</dict>
-		<key>Processor</key>
-		<string>FileMover</string>
-	</dict>
     <dict>
-		<key>Arguments</key>
+        <key>Arguments</key>
+        <dict>
+            <key>pattern</key>
+            <string>%RECIPE_CACHE_DIR%/%NAME%/Install*.pkg</string>
+        </dict>
+        <key>Processor</key>
+        <string>FileFinder</string>
+    </dict>
+    <dict>
+        <key>Arguments</key>
             <dict>
                 <key>flat_pkg_path</key>
-                <string>%RECIPE_CACHE_DIR%/%NAME%/%NAME%-%version%.pkg</string>
+                <string>%found_filename%</string>
                 <key>destination_path</key>
                 <string>%RECIPE_CACHE_DIR%/pkg_unpack</string>
                 <key>purge_destination</key>
@@ -72,10 +59,10 @@
             </dict>
             <key>Processor</key>
             <string>FlatPkgUnpacker</string>
-	</dict>
-	<dict>
-		<key>Arguments</key>
-			<dict>
+    </dict>
+    <dict>
+        <key>Arguments</key>
+            <dict>
                 <key>pkgroot</key>
                 <string>%RECIPE_CACHE_DIR%/application_payload/Applications</string>
                 <key>pkgdirs</key>
@@ -83,9 +70,9 @@
             </dict>
             <key>Processor</key>
             <string>PkgRootCreator</string>
-	</dict>
-	<dict>
-		<key>Arguments</key>
+    </dict>
+    <dict>
+        <key>Arguments</key>
             <dict>
                 <key>pkg_payload_path</key>
                 <string>%RECIPE_CACHE_DIR%/pkg_unpack/lockdownbrowser.pkg/Payload</string>
@@ -96,71 +83,71 @@
             </dict>
             <key>Processor</key>
             <string>PkgPayloadUnpacker</string>
-	</dict>
-	<dict>
-		<key>Arguments</key>
-		<dict>
-			<key>source</key>
-			<string>%RECIPE_CACHE_DIR%/application_payload/Applications/LockDown Browser (unconfigured).app</string>
-			<key>target</key>
-			<string>%RECIPE_CACHE_DIR%/application_payload/Applications/LockDown Browser.app</string>
-		</dict>
-		<key>Processor</key>
-		<string>FileMover</string>
-	</dict>
-	<dict>
-		<key>Comment</key>
-		<string>LockDown Browser by default has a receipt version of 1 every single time. And the .app bundle version doesn't take into account minor versions, so it's always 2.0.0, even if it's gone up from 2.0.0.06 to 2.0.0.08, so we're going to make an installs array out of the executable.</string>
-		<key>Arguments</key>
-			<dict>
-				<key>faux_root</key>
-				<string>%RECIPE_CACHE_DIR%/application_payload</string>
-				<key>installs_item_paths</key>
-				<array>
-					<string>/Applications/LockDown Browser.app/Contents/MacOS/LockDown Browser</string>
-				</array>
+    </dict>
+    <dict>
+        <key>Arguments</key>
+        <dict>
+            <key>source</key>
+            <string>%RECIPE_CACHE_DIR%/application_payload/Applications/LockDown Browser (unconfigured).app</string>
+            <key>target</key>
+            <string>%RECIPE_CACHE_DIR%/application_payload/Applications/LockDown Browser.app</string>
+        </dict>
+        <key>Processor</key>
+        <string>FileMover</string>
+    </dict>
+    <dict>
+        <key>Comment</key>
+        <string>LockDown Browser by default has a receipt version of 1 every single time. And the .app bundle version doesn't take into account minor versions, so it's always 2.0.0, even if it's gone up from 2.0.0.06 to 2.0.0.08, so we're going to make an installs array out of the executable.</string>
+        <key>Arguments</key>
+            <dict>
+                <key>faux_root</key>
+                <string>%RECIPE_CACHE_DIR%/application_payload</string>
+                <key>installs_item_paths</key>
+                <array>
+                    <string>/Applications/LockDown Browser.app/Contents/MacOS/LockDown Browser</string>
+                </array>
             </dict>
-		<key>Processor</key>
-		<string>MunkiInstallsItemsCreator</string>
-	</dict>
-	<dict>
-		<key>Processor</key>
-		<string>MunkiPkginfoMerger</string>
-	</dict>
-	<dict>
-		<key>Comment</key>
-		<string>Get rid of the receipts array</string>
-			<key>Processor</key>
-			<string>MunkiPkginfoMerger</string>
-			<key>Arguments</key>
+        <key>Processor</key>
+        <string>MunkiInstallsItemsCreator</string>
+    </dict>
+    <dict>
+        <key>Processor</key>
+        <string>MunkiPkginfoMerger</string>
+    </dict>
+    <dict>
+        <key>Comment</key>
+        <string>Get rid of the receipts array</string>
+            <key>Processor</key>
+            <string>MunkiPkginfoMerger</string>
+            <key>Arguments</key>
             <dict>
                 <key>additional_pkginfo</key>
                 <dict>
                     <key>version</key>
                     <string>%version%</string>
-			        <key>receipts</key>
+                    <key>receipts</key>
                     <array>
                         <dict>
-			                <key>packageid</key>
-			                <string>com.respondus.LockdownBrowser.standard.pkg</string>
-			                <key>version</key>
-			                <string>%version%</string>
+                            <key>packageid</key>
+                            <string>com.respondus.LockdownBrowser.standard.pkg</string>
+                            <key>version</key>
+                            <string>%version%</string>
                         </dict>
-					</array>
+                    </array>
                 </dict>
             </dict>
         </dict>
-		<dict>
-    		<key>Arguments</key>
-        		<dict>
-        			<key>pkg_path</key>
-            		<string>%RECIPE_CACHE_DIR%/%NAME%/%NAME%-%version%.pkg</string>
-            		<key>repo_subdirectory</key>
-            		<string>%MUNKI_REPO_SUBDIR%</string>
-        		</dict>
-        	<key>Processor</key>
-        	<string>MunkiImporter</string>
-    	</dict>
+        <dict>
+            <key>Arguments</key>
+                <dict>
+                    <key>pkg_path</key>
+                    <string>%found_filename%</string>
+                    <key>repo_subdirectory</key>
+                    <string>%MUNKI_REPO_SUBDIR%</string>
+                </dict>
+            <key>Processor</key>
+            <string>MunkiImporter</string>
+        </dict>
     </array>
 </dict>
 </plist>
