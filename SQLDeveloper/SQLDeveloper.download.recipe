@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads latest SQL Developer
+    AuthParam to your login's AuthParam
+    
+    At the moment, this recipe is just a proof-of-concept. Unfortunately, I can't find a way yet to get the AUTHPARAM to stick. It seems to be a one-time use thing.</string>
+    <key>Identifier</key>
+    <string>com.github.aysiu.download.SQLDeveloper</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>SQLDeveloper</string>
+        <key>AUTHPARAM</key>
+        <string>YOURAUTHPARAM</string>
+        <key>SEARCH_URL</key>
+        <string>http://www.oracle.com/technetwork/developer-tools/sql-developer/downloads/index.html</string>
+    </dict>
+    <key>MinimumVersion</key>
+    <string>0.2.0</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Processor</key>
+            <string>URLTextSearcher</string>
+            <key>Arguments</key>
+            <dict>
+                <key>url</key>
+                <string>%SEARCH_URL%</string>
+                <key>re_pattern</key>
+                <string>(?P&lt;downloadurl&gt;http:\/\/download\.oracle\.com\/otn\/java\/sqldeveloper\/sqldeveloper-(?P&lt;version&gt;.*?)-macosx\.app\.zip)</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>URLDownloader</string>
+            <key>Arguments</key>
+            <dict>
+                <key>url</key>
+                <string>%downloadurl%?AuthParam=%AUTHPARAM%</string>
+                <key>filename</key>
+                <string>%NAME%.zip</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>Unarchiver</string>
+            <key>purge_destination</key>
+            <true/>
+            <key>archive_path</key>
+            <string>%RECIPE_CACHE_DIR%/downloads/%NAME%.zip</string>
+            <key>destination_path</key>
+            <string>%RECIPE_CACHE_DIR%/%NAME%/</string>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>EndOfCheckPhase</string>
+        </dict>
+        <dict>   
+            <key>Processor</key>   
+            <string>CodeSignatureVerifier</string>   
+            <key>Arguments</key>
+            <dict>
+                <key>input_path</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%/%NAME%.app</string>
+                <key>requirement</key>
+                <string>identifier "com.oracle.SQLDeveloper" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = VB5E2TV963</string>
+            </dict>
+        </dict>
+    </array>
+</dict>
+</plist>
