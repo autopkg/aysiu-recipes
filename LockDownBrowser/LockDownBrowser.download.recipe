@@ -2,48 +2,48 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>Description</key>
-    <string>Downloads latest LockDown Browser
+	<key>Description</key>
+	<string>Downloads latest LockDown Browser
     Be sure to change the institution ID to be your institution's ID.</string>
-    <key>Identifier</key>
-    <string>com.github.aysiu.download.LockDownBrowser</string>
-    <key>Input</key>
-    <dict>
-        <key>NAME</key>
-        <string>LockDownBrowser</string>
-        <key>SEARCH_URL</key>
-        <string>https://www.respondus.com/lockdown/download7.php?id=FILLINYOURINSTITUTIONID</string>
-        <key>USER_AGENT</key>
-        <string>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/536.28.10 (KHTML, like Gecko) Version/6.0.3 Safari/536.28.10</string>
-    </dict>
-    <key>MinimumVersion</key>
-    <string>0.2.0</string>
-    <key>Process</key>
-    <array>
+	<key>Identifier</key>
+	<string>com.github.aysiu.download.LockDownBrowser</string>
+	<key>Input</key>
+	<dict>
+		<key>NAME</key>
+		<string>LockDownBrowser</string>
+		<key>SEARCH_URL</key>
+		<string>https://www.respondus.com/lockdown/download7.php?id=FILLINYOURINSTITUTIONID</string>
+		<key>USER_AGENT</key>
+		<string>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/536.28.10 (KHTML, like Gecko) Version/6.0.3 Safari/536.28.10</string>
+	</dict>
+	<key>MinimumVersion</key>
+	<string>0.2.0</string>
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Processor</key>
+			<string>URLTextSearcher</string>
+			<key>Arguments</key>
+			<dict>
+				<key>request_headers</key>
+				<dict>
+					<key>user-agent</key>
+					<string>%USER_AGENT%</string>
+ 				</dict>
+				<key>url</key>
+				<string>%SEARCH_URL%</string>
+				<key>re_pattern</key>
+				<string>(\&lt;strong\&gt;Version:\&lt;\/strong\&gt; (?P&lt;version&gt;.*?)\&lt;\/span\&gt;)</string>
+			</dict>
+		</dict>
         <dict>
-            <key>Processor</key>
+			<key>Processor</key>
             <string>URLTextSearcher</string>
             <key>Arguments</key>
             <dict>
-                <key>request_headers</key>
+            	<key>request_headers</key>
                 <dict>
-                    <key>user-agent</key>
-                    <string>%USER_AGENT%</string>
-                </dict>
-                <key>url</key>
-                <string>%SEARCH_URL%</string>
-                <key>re_pattern</key>
-                <string>(\&lt;strong\&gt;Version:\&lt;\/strong\&gt; (?P&lt;version&gt;.*?)\&lt;\/span\&gt;)</string>
-            </dict>
-        </dict>
-        <dict>
-            <key>Processor</key>
-            <string>URLTextSearcher</string>
-            <key>Arguments</key>
-            <dict>
-                <key>request_headers</key>
-                <dict>
-                    <key>user-agent</key>
+                	<key>user-agent</key>
                     <string>%USER_AGENT%</string>
                 </dict>
                 <key>url</key>
@@ -53,47 +53,45 @@
             </dict>
         </dict>
         <dict>
-            <key>Processor</key>
+			<key>Processor</key>
             <string>URLDownloader</string>
             <key>Arguments</key>
             <dict>
-                <key>url</key>
+            	<key>url</key>
                 <string>%downloadurl%</string>
                 <key>filename</key>
                 <string>%NAME%.zip</string>
             </dict>
         </dict>
         <dict>
-		    <key>Arguments</key>
-		    <dict>
-                <key>path_list</key>
-                <array>
-                    <string>%RECIPE_CACHE_DIR%/%NAME%/</string>
-                </array>
-            </dict>
             <key>Processor</key>
             <string>PathDeleter</string>
+			<key>Arguments</key>
+			<dict>
+            	<key>path_list</key>
+                <array>
+                	<string>%RECIPE_CACHE_DIR%/%NAME%/</string>
+                </array>
+        	</dict>
 	    </dict>                   	
         <dict>
-            <key>Processor</key>
+        	<key>Processor</key>
             <string>Unarchiver</string>
-            <key>purge_destination</key>
-            <true/>
             <key>archive_path</key>
             <string>%RECIPE_CACHE_DIR%/downloads/%NAME%.zip</string>
             <key>destination_path</key>
             <string>%RECIPE_CACHE_DIR%/%NAME%/</string>
         </dict>
         <dict>
-            <key>Processor</key>
+        	<key>Processor</key>
             <string>EndOfCheckPhase</string>
         </dict>
         <dict>   
-            <key>Processor</key>   
-            <string>CodeSignatureVerifier</string>   
+        	<key>Processor</key>   
+        	<string>CodeSignatureVerifier</string>   
             <key>Arguments</key>   
             <dict>   
-                <key>input_path</key>   
+            	<key>input_path</key>   
                 <string>%RECIPE_CACHE_DIR%/%NAME%/Install*.*pkg</string>
                 <key>expected_authority_names</key>
                 <array>
