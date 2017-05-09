@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads the latest DiskMaker X disk image and imports into Munki.</string>
+    <key>Identifier</key>
+    <string>com.github.aysiu.munki.DiskMakerX</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>DiskMakerX</string>
+        <key>MUNKI_REPO_SUBDIR</key>
+        <string>apps</string>
+        <key>pkginfo</key>
+        <dict>
+            <key>catalogs</key>
+            <array>
+                <string>testing</string>
+            </array>
+            <key>description</key>
+            <string>DiskMaker X (formerly Lion DiskMaker) is an application built with AppleScript that you can use with many versions of OS X/macOS to build a bootable drive from OS X/macOS installer program (the one you download from the App Store). As soon as you launch the application, it tries to find the OS X Install program with Spotlight. Then, it proposes to build a bootable install disk and make it look as nice as possible. It’s the easiest way to build an OS X/macOS Installer in a few clicks! Then you can use the Install drive to fully re-install the OS on a freshly formated drive, or install it on your many Macs without re-downloading the full installer.</string>
+            <key>display_name</key>
+            <string>DiskMaker X</string>
+            <key>name</key>
+            <string>%NAME%</string>
+            <key>unattended_install</key>
+            <true/>
+        </dict>
+    </dict>
+    <key>MinimumVersion</key>
+    <string>0.2.0</string>
+    <key>ParentRecipe</key>
+    <string>com.github.aysiu.download.DiskMakerX</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_path</key>
+                <string>%pathname%</string>
+                <key>repo_subdirectory</key>
+                <string>%MUNKI_REPO_SUBDIR%</string>
+            </dict>
+            <key>Processor</key>
+            <string>MunkiImporter</string>
+        </dict>
+    </array>
+</dict>
+</plist>
