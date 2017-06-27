@@ -89,7 +89,7 @@
                 <string>%RECIPE_CACHE_DIR%/%NAME%/Install*.*pkg</string>
                 <key>expected_authority_names</key>
                 <array>
-                    <string>Developer ID Installer: Respondus</string>
+                    <string>Developer ID Installer: Respondus (8CA6NAN723)</string>
                     <string>Developer ID Certification Authority</string>
                     <string>Apple Root CA</string>
                 </array>
