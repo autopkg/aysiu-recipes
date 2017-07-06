@@ -30,6 +30,12 @@
             <string>%NAME%</string>
             <key>unattended_install</key>
             <true/>
+            <key>preinstall_script</key>
+            <string>#!/bin/bash
+
+# The installation will fail without this directory
+mkdir -p /var/root/Library/Logs
+            </string>
         </dict>
     </dict>
     <key>MinimumVersion</key>
