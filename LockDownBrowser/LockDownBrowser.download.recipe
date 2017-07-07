@@ -9,10 +9,14 @@
     <string>com.github.aysiu.download.LockDownBrowser</string>
     <key>Input</key>
     <dict>
+        <key>INSTITUTION_ID</key>
+        <string>FILLINYOURINSTITUTIONID</string>
         <key>NAME</key>
         <string>LockDownBrowser</string>
+        <key>BASE_URL</key>
+        <string>https://www.respondus.com/lockdown/download7.php?id=</string>
         <key>SEARCH_URL</key>
-        <string>https://www.respondus.com/lockdown/download7.php?id=FILLINYOURINSTITUTIONID</string>
+        <string>%BASE_URL%%INSTITUTION_ID%</string>
         <key>USER_AGENT</key>
         <string>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/536.28.10 (KHTML, like Gecko) Version/6.0.3 Safari/536.28.10</string>
     </dict>
@@ -20,6 +24,15 @@
     <string>0.2.0</string>
     <key>Process</key>
     <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>predicate</key>
+                <string>INSTITUTION_ID == "FILLINYOURINSTITUTIONID"</string>
+            </dict>
+            <key>Processor</key>
+            <string>StopProcessingIf</string>
+        </dict>
         <dict>
             <key>Processor</key>
             <string>URLTextSearcher</string>
