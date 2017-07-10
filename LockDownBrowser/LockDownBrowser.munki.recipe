@@ -36,7 +36,17 @@
 # The installation will fail without this directory
 mkdir -p /var/root/Library/Logs
             </string>
-        </dict>
+            <key>uninstall_method</key>
+            <string>uninstall_script</string>
+            <key>uninstall_script</key>
+            <string>#!/bin/bash
+                LDB='/Applications/LockDown Browser.app'
+
+                if [ -a "$LDB" ]; then
+                    rm -r /Applications/LockDown\ Browser.app
+                fi
+            </string>
+    </dict>
     </dict>
     <key>MinimumVersion</key>
     <string>0.2.0</string>
