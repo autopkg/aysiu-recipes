@@ -30,9 +30,6 @@
 			<string>%NAME%</string>
 			<key>unattended_install</key>
 			<true/>
-			<key>blocking_applications</key>
-			<array>
-			</array>
 			<key>uninstall_method</key>
 			<string>uninstall_script</string>
 			<key>unattended_uninstall</key>
@@ -181,6 +178,9 @@ exit 0
 					<dict>
 						<key>version</key>
 						<string>%version%</string>
+						<key>blocking_applications</key>
+						<array>
+						</array>
 					</dict>
 				</dict>
 		</dict>
