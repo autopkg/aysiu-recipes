@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>Description</key>
-	<string>Downloads the latest Fitbit Connect and imports into Munki.</string>
+	<string>Imports Fitbit Connect into Munki.</string>
 	<key>Identifier</key>
 	<string>com.github.aysiu.munki.Fitbit</string>
 	<key>Input</key>
 	<dict>
 		<key>NAME</key>
-		<string>Fitbit Connect</string>
+		<string>FitbitConnect</string>
 		<key>MUNKI_REPO_SUBDIR</key>
 		<string>apps</string>
 		<key>pkginfo</key>
@@ -19,47 +19,183 @@
 				<string>testing</string>
 			</array>
 			<key>description</key>
-			<string>Desktop client for FitBit</string>
-			<key>display_name</key>
 			<string>Fitbit Connect</string>
-			<key>name</key>
-			<string>%NAME%</string>
 			<key>category</key>
 			<string>Fitness</string>
 			<key>developer</key>
 			<string>Fitbit</string>
+			<key>display_name</key>
+			<string>Fitbit Connect</string>
+			<key>name</key>
+			<string>%NAME%</string>
 			<key>unattended_install</key>
 			<true/>
+			<key>blocking_applications</key>
+			<array>
+			</array>
+			<key>uninstall_method</key>
+			<string>uninstall_script</string>
+			<key>unattended_uninstall</key>
+			<false/>
+			<key>uninstall_script</key>
+			<string>#!/bin/sh
+
+osascript -e 'tell application "/Applications/Fitbit Connect.app/Contents/MacOS/Fitbit Connect Menubar Helper.app" to quit'
+osascript -e 'tell application "/Applications/Fitbit Connect.app" to quit'
+osascript -e 'tell application "System Events" to delete login item "Fitbit Connect Menubar Helper"' 
+
+rm -rf "/Applications/Fitbit Connect.app"
+
+USER_PREFERENCES_DIR="$HOME/Library/Preferences/"
+rm -f "${USER_PREFERENCES_DIR}com.fitbit.GalileoClient.plist"
+rm -f "${USER_PREFERENCES_DIR}com.fitbit.GalileoMenubar.plist"
+rm -f "${USER_PREFERENCES_DIR}com.fitbit.GalileoUninstaller.plist"
+rm -f "${USER_PREFERENCES_DIR}FitbitConfiguration.plist"
+
+PLIST_DEST_DIR="/Library/LaunchDaemons/"
+galileod_service="com.fitbit.galileod"
+galileod_plist="${PLIST_DEST_DIR}${galileod_service}.plist"
+
+if [ -f $galileod_plist ]
+then
+	launchctl unload -wF $galileod_plist
+    rm -f $galileod_plist
+fi
+
+SYSTEM_KEXT_DIR="/System/Library/Extensions/"
+galileod_kext="${SYSTEM_KEXT_DIR}FitbitUSBCable.kext"
+
+OS_VER=`sw_vers -productVersion | sed "s:.[[:digit:]]*.$::g"`
+
+if [[ ${OS_VER} == 10.11 ]]; then
+   kextunload "${galileod_kext}"
+fi
+rm -rf "${galileod_kext}"
+touch $SYSTEM_KEXT_DIR
+
+GALILEOD_DEST_DIR="/Library/Application Support/Fitbit Connect/"
+galileod="${GALILEOD_DEST_DIR}galileod"
+galileoddsym="${GALILEOD_DEST_DIR}galileod.dSYM"
+
+OPENSSL_DEST_DIR="/Library/Application Support/Fitbit Connect/"
+openssl_crypto_lib="${OPENSSL_DEST_DIR}libcrypto.1.0.0.dylib"
+openssl_ssl_lib="${OPENSSL_DEST_DIR}libssl.1.0.0.dylib"
+
+rm -f $galileod
+rm -f $openssl_crypto_lib
+rm -f $openssl_ssl_lib
+rmdir ${OPENSSL_DEST_DIR} "/usr/local/ssl"
+
+GALILEO_CONFIG_DIR="/Library/Preferences/"
+galileo_config="${GALILEO_CONFIG_DIR}galileo_config.xml"
+GALILEO_APPDATA_DIR="/Library/Application Support/Fitbit Connect"
+
+rm -f $galileo_config
+rm -rf "${GALILEO_APPDATA_DIR}"
+
+GALILEO_WORKING_DIR="/var/run/"
+old_galileod_log="${GALILEO_WORKING_DIR}com.fitbit.galileod.log"
+galileod_log="/var/log/com.fitbit.galileo.logs"
+galileod_pid="${GALILEO_WORKING_DIR}${galileod_service}.pid"
+galileod_socket="${GALILEO_WORKING_DIR}${galileod_service}.socket"
+
+rm -rf $galileod_log
+rm -f $old_galileod_log
+rm -f $galileod_pid
+rm -f $galileod_socket
+
+GALILEO_APP_SUPPORT_DIR="/Library/Application Support/Galileo"
+
+rm -rf "${GALILEO_APP_SUPPORT_DIR}"
+
+exit 0
+			</string>
 		</dict>
 	</dict>
 	<key>MinimumVersion</key>
 	<string>0.2.0</string>
 	<key>ParentRecipe</key>
-	<string>com.github.patgmac.pkg.FitbitExtractor</string>
+	<string>com.github.hansen-m.download.Fitbit</string>
 	<key>Process</key>
 	<array>
+		<dict>
+			<key>Arguments</key>
+				<dict>
+					<key>flat_pkg_path</key>
+					<string>%pathname%/Install Fitbit Connect.pkg</string>
+					<key>destination_path</key>
+					<string>%RECIPE_CACHE_DIR%/pkg_unpack</string>
+					<key>purge_destination</key>
+					<true/>
+				</dict>
+			<key>Processor</key>
+			<string>FlatPkgUnpacker</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+				<dict>
+					<key>pkgroot</key>
+					<string>%RECIPE_CACHE_DIR%/application_payload/Applications</string>
+					<key>pkgdirs</key>
+					<dict/>
+				</dict>
+			<key>Processor</key>
+			<string>PkgRootCreator</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+				<dict>
+					<key>pkg_payload_path</key>
+					<string>%RECIPE_CACHE_DIR%/pkg_unpack/Fitbit_Connect.pkg/Payload</string>
+					<key>destination_path</key>
+					<string>%RECIPE_CACHE_DIR%/application_payload/Applications</string>
+					<key>purge_destination</key>
+					<true/>
+				</dict>
+			<key>Processor</key>
+			<string>PkgPayloadUnpacker</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+				<dict>
+					<key>faux_root</key>
+					<string>%RECIPE_CACHE_DIR%/application_payload</string>
+					<key>installs_item_paths</key>
+					<array>
+						<string>/Applications/Applications/Fitbit Connect.app</string>
+					</array>
+				</dict>
+			<key>Processor</key>
+			<string>MunkiInstallsItemsCreator</string>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>MunkiPkginfoMerger</string>
+		</dict>
 		<dict>
 			<key>Processor</key>
 			<string>MunkiPkginfoMerger</string>
 			<key>Arguments</key>
-			<dict>
-				<key>additional_pkginfo</key>
+				<dict>
+					<key>additional_pkginfo</key>
 					<dict>
 						<key>version</key>
 						<string>%version%</string>
 					</dict>
-			</dict>
-		</dict>	
+				</dict>
+		</dict>
 		<dict>
+			<key>Arguments</key>
+				<dict>
+					<key>version_comparison_key</key>
+					<string>CFBundleVersion</string>
+					<key>pkg_path</key>
+					<string>%pathname%</string>
+					<key>repo_subdirectory</key>
+					<string>%MUNKI_REPO_SUBDIR%</string>
+				</dict>
 			<key>Processor</key>
 			<string>MunkiImporter</string>
-			<key>Arguments</key>
-			<dict>
-				<key>pkg_path</key>
-				<string>%pathname%</string>
-				<key>repo_subdirectory</key>
-				<string>%MUNKI_REPO_SUBDIR%</string>
-			</dict>
 		</dict>
 	</array>
 </dict>
