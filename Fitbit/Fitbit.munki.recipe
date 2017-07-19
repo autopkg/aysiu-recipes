@@ -159,10 +159,10 @@ exit 0
 			<key>Arguments</key>
 				<dict>
 					<key>faux_root</key>
-					<string>%RECIPE_CACHE_DIR%/application_payload</string>
+					<string>%RECIPE_CACHE_DIR%/application_payload/Applications</string>
 					<key>installs_item_paths</key>
 					<array>
-						<string>/Applications/Applications/Fitbit Connect.app</string>
+						<string>/Applications/Fitbit Connect.app</string>
 					</array>
 				</dict>
 			<key>Processor</key>
