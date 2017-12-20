@@ -17,18 +17,14 @@
     <array>
         <dict>
             <key>Processor</key>
-            <string>URLTextSearcher</string>
+            <string>URLDownloader</string>
             <key>Arguments</key>
             <dict>
-                <key>url</key>
-                <string>http://www.lego.com/en-us/mindstorms/downloads/download-software</string>
-                <key>re_pattern</key>
-                <string>(?P&lt;url&gt;http://esd.lego.com.edgesuite.net/digitaldelivery/mindstorms/.*?/public/LMS-EV3-OSX-ENUS-(?P&lt;version&gt;.*?)-full-setup.dmg)</string>
+            	<key>url</key>
+            	<string>https://go.api.education.lego.com/v1/lms-ev3_en-us_osx</string>
+            	<key>filename</key>
+            	<string>LMS-EV3_Full-setup.dmg</string>
             </dict>
-        </dict>
-        <dict>
-            <key>Processor</key>
-            <string>URLDownloader</string>
         </dict>
         <dict>
             <key>Processor</key>
