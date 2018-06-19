@@ -3,10 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Downloads the current release version of Lego Mindstorms.
-    Note: I cannot find a download link for LEGO Mindstorms that uses https, so the http source is in here. If you find a valid
-    https download link, please let me know or make a pull request.
-    </string>
+    <string>Downloads the current release version of Lego Mindstorms.</string>
     <key>Identifier</key>
     <string>com.github.aysiu.download.legomindstorms</string>
     <key>Input</key>
