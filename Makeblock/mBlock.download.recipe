@@ -35,7 +35,7 @@
                     <string>IGNORECASE</string>
                 </array>
                 <key>re_pattern</key>
-                <string>(?P&lt;url&gt;http:\/\/mblock\.makeblock\.com\/mBlock_mac_V(?P&lt;version&gt;.*?).zip)</string>
+                <string>(?P&lt;url&gt;http:\/\/mblock.*?.com\/mBlock_mac_V(?P&lt;version&gt;.*?).zip)</string>
             </dict>
         </dict>
         <dict>
