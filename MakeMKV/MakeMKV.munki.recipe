@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Description</key>
+	<string>Downloads the current release version of MakeMKV and imports into Munki.</string>
+	<key>Identifier</key>
+	<string>com.github.aysiu.munki.MakeMKV</string>
+	<key>Input</key>
+	<dict>
+		<key>NAME</key>
+		<string>MakeMKV</string>
+		<key>MUNKI_REPO_SUBDIR</key>
+		<string>apps</string>
+		<key>MUNKI_CATEGORY</key>
+		<string>Multimedia</string>
+		<key>pkginfo</key>
+		<dict>
+			<key>catalogs</key>
+			<array>
+				<string>testing</string>
+			</array>
+			<key>category</key>
+			<string>%MUNKI_CATEGORY%</string>
+			<key>description</key>
+			<string>MKV stands for "Matroska Video". Matroska is a container file format, capable of holding unlimited number of video, audio and subtitile tracks, along with any metadata. Practically this means that it is possible to put entire movie with multiple sound and subtitle tracks, chapters information and movie thumbnail into single file. Being open and patent-free Matroska gained broad support recently and quickly becomes de-facto standard for storing movies.</string>
+			<key>developer</key>
+			<string>Matroska</string>
+			<key>display_name</key>
+			<string>MakeMKV</string>
+			<key>name</key>
+			<string>%NAME%</string>
+			<key>unattended_install</key>
+			<true/>
+		</dict>
+	</dict>
+	<key>ParentRecipe</key>
+	<string>com.github.haircut.download.MakeMKV</string>
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Processor</key>
+			<string>AppDmgVersioner</string>
+			<key>Arguments</key>
+			<dict>
+				<key>dmg_path</key>
+				<string>%pathname%</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>MunkiPkginfoMerger</string>
+			<key>Arguments</key>
+				<dict>
+					<key>additional_pkginfo</key>
+					<dict>
+						<key>version</key>
+						<string>%version%</string>
+					</dict>
+				</dict>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>MunkiImporter</string>
+			<key>Arguments</key>
+			<dict>
+				<key>pkg_path</key>
+				<string>%pathname%</string>
+				<key>munkiimport_appname</key>
+				<string>MakeMKV.app</string>
+				<key>repo_subdirectory</key>
+				<string>%MUNKI_REPO_SUBDIR%</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>
