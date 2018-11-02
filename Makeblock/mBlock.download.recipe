@@ -4,7 +4,7 @@
 <dict>
     <key>Description</key>
     <string>Download recipe for mBlock
-    Note: mBlock has no https download site, and it has no code signature to verify.</string>
+    Note: mBlock has no https download site.</string>
     <key>Identifier</key>
     <string>com.github.aysiu.download.mBlock</string>
     <key>Input</key>
@@ -29,77 +29,37 @@
                         <string>%USER_AGENT%</string>
                 </dict>
                 <key>url</key>
-                <string>http://www.mblock.cc/software/mblock/mblock3/</string>
+                <string>http://www.mblock.cc/software-1/mblock/mblock5/#Download</string>
                 <key>re_flags</key>
                 <array>
                     <string>IGNORECASE</string>
                 </array>
                 <key>re_pattern</key>
-                <string>(?P&lt;url&gt;http:\/\/mblock.*?.com\/mBlock_mac_V(?P&lt;version&gt;.*?).zip)</string>
+                <string>(?P&lt;url&gt;https:\/\/mblockapp.*?com/mblock5/darwin/V(?P&lt;version&gt;.*?).pkg)</string>
             </dict>
         </dict>
         <dict>
             <key>Processor</key>
             <string>URLDownloader</string>
-            <key>filename</key>
-            <string>%NAME%.zip</string>
-        </dict>
-        <dict>
-            <key>Processor</key>
-            <string>Unarchiver</string>
-            <key>Arguments</key>
-            <dict>
-                <key>purge_destination</key>
-                <true/>
-            </dict>
-        </dict>
-        <dict>
-        <key>Arguments</key>
-            <dict>
-                <key>pattern</key>
-                <string>%RECIPE_CACHE_DIR%/%NAME%/%NAME%*.app</string>
-            </dict>
-            <key>Processor</key>
-            <string>FileFinder</string>
-        </dict>
-        <dict>
-            <key>Processor</key>
-            <string>Copier</string>
-            <key>Arguments</key>
-            <dict>
-                <key>destination_path</key>
-                <string>%RECIPE_CACHE_DIR%/%NAME%-dmg/%NAME%.app</string>
-                <key>source_path</key>
-                <string>%found_filename%</string>
-                <key>overwrite</key>
-                <true/>
-            </dict>
-        </dict>
-        <dict>
-            <key>Processor</key>
-            <string>PathDeleter</string>
-            <key>Arguments</key>
-            <dict>
-                <key>path_list</key>
-                <array>
-                    <string>%found_filename%</string>
-                </array>
-            </dict>
-        </dict>
-        <dict>
-            <key>Processor</key>
-            <string>DmgCreator</string>
-            <key>Arguments</key>
-                <dict>
-                    <key>dmg_root</key>
-                    <string>%RECIPE_CACHE_DIR%/%NAME%-dmg/</string>
-                    <key>dmg_path</key>
-                    <string>%RECIPE_CACHE_DIR%/%NAME%.dmg</string>
-                </dict>
         </dict>
         <dict>
             <key>Processor</key>
             <string>EndOfCheckPhase</string>
+        </dict>
+        <dict>   
+            <key>Processor</key>   
+            <string>CodeSignatureVerifier</string>   
+            <key>Arguments</key>   
+            <dict>   
+                <key>input_path</key>   
+                <string>%pathname%</string>
+                <key>expected_authority_names</key>
+                <array>
+                    <string>Developer ID Installer: Makeblock Co., Ltd. (XWN8AWFG9J)</string>
+                    <string>Developer ID Certification Authority</string>
+                    <string>Apple Root CA</string>
+                </array>
+            </dict>
         </dict>
     </array>
 </dict>
