@@ -34,7 +34,7 @@
             <key>Arguments</key>
             <dict>
                <key>url</key>
-               <string>%baseurl%/scratchr2/static/sa/Scratch-%editor_version%.dmg </string>
+               <string>%baseurl%/scratchr2/static/sa/Scratch-%editor_version%.dmg</string>
                <key>filename</key>
                <string>%NAME%.dmg</string>
             </dict>
