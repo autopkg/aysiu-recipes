@@ -1,0 +1,8 @@
+repos:
+- repo: https://github.com/homebysix/pre-commit-macadmin
+  rev: v1.5.1
+  hooks:
+  - id: check-autopkg-recipes
+    args: ['--recipe-prefix=com.github.aysiu.']
+  - id: forbid-autopkg-overrides
+  - id: forbid-autopkg-trust-info
