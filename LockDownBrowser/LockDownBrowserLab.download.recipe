@@ -57,8 +57,12 @@
                 <string>%SEARCH_URL%</string>
                 <key>re_pattern</key>
                 <string>(\&lt;strong\&gt;Version:\&lt;\/strong\&gt; (?P&lt;version&gt;.*?)\&lt;\/span\&gt;)</string>
+                <key>curl_opts</key>
+                <array>
+                    <string>--header</string>
+                    <string>User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.106 Safari/537.36</string>
+                </array>
             </dict>
-        </dict>
         <dict>
             <key>Processor</key>
             <string>URLDownloader</string>
