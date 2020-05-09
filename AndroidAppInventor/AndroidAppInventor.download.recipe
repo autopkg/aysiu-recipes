@@ -11,7 +11,7 @@
         <key>NAME</key>
         <string>AndroidAppInventor</string>
         <key>DOWNLOAD_URL</key>
-        <string>http://appinv.us/aisetup_mac</string>
+        <string>http://appinv.us/aisetup_mac_3.0rc3</string>
     </dict>
     <key>MinimumVersion</key>
     <string>0.2.0</string>
