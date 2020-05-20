@@ -1,112 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-    <key>Description</key>
-    <string>Downloads latest LockDown Browser Lab
-    Be sure to change the institution ID to be your institution's ID, and the hash to be your lab hash.</string>
-    <key>Identifier</key>
-    <string>com.github.aysiu.download.LockDownBrowserLab</string>
-    <key>Input</key>
     <dict>
-        <key>INSTITUTION_ID</key>
-        <string>FILLINYOURINSTITUTIONID</string>
-        <key>LAB_HASH</key>
-        <string>FILLINYOURLABHASH</string>
-        <key>NAME</key>
-        <string>LockDownBrowser</string>
-        <key>BASE_URL</key>
-        <string>http://www.respondus7.com/downloads/cmaclab/download.php?instid=</string>
-        <key>LAB_HASH_QUERY</key>
-        <string>&amp;labhash=</string>
-        <key>DOWNLOAD_URL</key>
-        <string>%BASE_URL%%INSTITUTION_ID%%LAB_HASH_QUERY%%LAB_HASH%</string>
-        <key>VERSION_SEARCH_URL</key>
-        <string>https://www.respondus.com/lockdown/download7.php?id=</string>
-        <key>SEARCH_URL</key>
-        <string>%VERSION_SEARCH_URL%%INSTITUTION_ID%</string>
+        <key>Description</key>
+        <string>Downloads latest LockDown Browser Lab
+        Be sure to change the institution ID to be your institution's ID, and the hash to be your lab hash.</string>
+        <key>Identifier</key>
+        <string>com.github.aysiu.download.LockDownBrowserLab</string>
+        <key>Input</key>
+        <dict>
+        </dict>
+        <key>MinimumVersion</key>
+        <string>0.2.0</string>
+        <key>ParentRecipe</key>
+        <string>com.github.nstrauss.download.RespondusLockDownBrowserLab</string>
+        <key>Process</key>
+        <array>
+            <dict>
+                <key>Processor</key>
+                <string>DeprecationWarning</string>
+                <key>Arguments</key>
+                <dict>
+                    <key>warning_message</key>
+                    <string>This recipe will soon be removed. Please remove it from your list of recipes.</string>
+                </dict>
+            </dict>
+        </array>
     </dict>
-    <key>MinimumVersion</key>
-    <string>0.2.0</string>
-    <key>Process</key>
-    <array>
-        <dict>
-            <key>Arguments</key>
-            <dict>
-                <key>predicate</key>
-                <string>INSTITUTION_ID == "FILLINYOURINSTITUTIONID"</string>
-            </dict>
-            <key>Processor</key>
-            <string>StopProcessingIf</string>
-        </dict>
-        <dict>
-            <key>Arguments</key>
-            <dict>
-                <key>predicate</key>
-                <string>LAB_HASH == "FILLINYOURLABHASH"</string>
-            </dict>
-            <key>Processor</key>
-            <string>StopProcessingIf</string>
-        </dict>
-        <dict>
-            <key>Processor</key>
-            <string>URLTextSearcher</string>
-            <key>Arguments</key>
-            <dict>
-                <key>url</key>
-                <string>%SEARCH_URL%</string>
-                <key>re_pattern</key>
-                <string>(\&lt;strong\&gt;Version:\&lt;\/strong\&gt; (?P&lt;version&gt;.*?)\&lt;\/span\&gt;)</string>
-                <key>curl_opts</key>
-                <array>
-                    <string>--header</string>
-                    <string>User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.106 Safari/537.36</string>
-                </array>
-            </dict>
-        </dict>
-        <dict>
-            <key>Processor</key>
-            <string>URLDownloader</string>
-            <key>Arguments</key>
-            <dict>
-                <key>url</key>
-                <string>%DOWNLOAD_URL%</string>
-                <key>filename</key>
-                <string>%NAME%.zip</string>
-            </dict>
-        </dict>
-        <dict>
-            <key>Processor</key>
-            <string>Unarchiver</string>
-            <key>Arguments</key>
-            <dict>
-                <key>purge_destination</key>
-                <true/>
-                <key>archive_path</key>
-                <string>%RECIPE_CACHE_DIR%/downloads/%NAME%.zip</string>
-                <key>destination_path</key>
-                <string>%RECIPE_CACHE_DIR%/%NAME%/</string>
-            </dict>
-        </dict>
-        <dict>
-            <key>Processor</key>
-            <string>EndOfCheckPhase</string>
-        </dict>
-        <dict>   
-            <key>Processor</key>
-            <string>CodeSignatureVerifier</string>
-            <key>Arguments</key>
-            <dict>
-                <key>input_path</key>
-                <string>%RECIPE_CACHE_DIR%/%NAME%/Install*.*pkg</string>
-                <key>expected_authority_names</key>
-                <array>
-                    <string>Developer ID Installer: Respondus (8CA6NAN723)</string>
-                    <string>Developer ID Certification Authority</string>
-                    <string>Apple Root CA</string>
-                </array>
-            </dict>
-        </dict>
-    </array>
-</dict>
 </plist>
