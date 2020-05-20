@@ -51,7 +51,7 @@ mkdir -p /var/root/Library/Logs
     <key>MinimumVersion</key>
     <string>0.2.0</string>
     <key>ParentRecipe</key>
-    <string>com.github.aysiu.download.LockDownBrowserLab</string>
+    <string>com.github.nstrauss.download.RespondusLockDownBrowserLab</string>
     <key>Process</key>
     <array>
         <dict>
