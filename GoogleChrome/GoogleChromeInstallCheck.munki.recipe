@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads the latest Google Chrome disk image and imports into Munki along with an installcheck_script.</string>
+    <key>Identifier</key>
+    <string>com.github.aysiu.munki.GoogleChromeInstallCheck</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>GoogleChrome</string>
+        <key>MUNKI_REPO_SUBDIR</key>
+        <string>apps</string>
+        <key>pkginfo</key>
+        <dict>
+            <key>catalogs</key>
+            <array>
+                <string>testing</string>
+            </array>
+            <key>description</key>
+            <string>Chrome is a fast, simple, and secure web browser, built for the modern web.</string>
+            <key>display_name</key>
+            <string>Google Chrome</string>
+            <key>name</key>
+            <string>%NAME%</string>
+            <key>developer</key>
+            <string>Google</string>
+            <key>category</key>
+            <string>Web Browsers</string>
+            <key>unattended_install</key>
+            <true/>
+            <key>postinstall_script</key>
+            <string>#!/bin/zsh
+
+# Since the installcheck_script checks for the running version of Chrome, kill any existing (stray) Chrome processes, as Munki may end up in an install loop otherwise. Blocking applications based on the installs array means Chrome should already not be running.
+stray_chrome=$(/bin/ps -axo command= | /usr/bin/grep "Google Chrome" | /usr/bin/grep -v "grep")
+
+if [[ ! -z "$stray_chrome" ]]; then
+    /bin/echo "There was at least one stray Chrome process, so killing Chrome"
+    /usr/bin/killall "Google Chrome"
+fi
+</string>
+        </dict>
+    </dict>
+    <key>MinimumVersion</key>
+    <string>0.2.0</string>
+    <key>ParentRecipe</key>
+    <string>com.github.autopkg.download.googlechrome</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>input_plist_path</key>
+                <string>%pathname%/Google Chrome.app/Contents/Info.plist</string>
+            </dict>
+            <key>Processor</key>
+            <string>Versioner</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>additional_pkginfo</key>
+                <dict>
+                    <key>installcheck_script</key>
+                    <string>#!/usr/local/munki/munki-python
+
+# Adapted from https://github.com/grahamgilbert/chrome_update_notifier/blob/master/payload/Library/Management/chrome_update_notifier.py
+
+from distutils.version import LooseVersion
+import os
+import plistlib
+import subprocess
+import sys
+
+desired_chrome_version = '%version%'
+chrome_plist = '/Applications/Google Chrome.app/Contents/Info.plist'
+
+def chrome_installed():
+    """
+    Checks if Google Chrome is installed
+    """
+    return bool(os.path.exists(chrome_plist))
+
+def get_chrome_version():
+    """
+    Returns the on disk chrome version
+    """
+    try:
+        chrome_contents = open(chrome_plist, 'r+b')
+    except:
+        print('ERROR: Unable to open {}, so cannot determine Chrome version. Considering not installed'.format(chrome_plist))
+        sys.exit(0)
+    try:
+        chrome_info = plistlib.load(chrome_contents)
+    except:
+        print('ERROR: Unable to get plist contents from {}. Considering not installed.'.format(chrome_plist))
+        sys.exit(0)
+    if 'CFBundleShortVersionString' in chrome_info:
+        return chrome_info['CFBundleShortVersionString']
+    else:
+        return '0'
+
+def running_chrome_version():
+    proc = subprocess.Popen(['/bin/ps', '-axo' 'command='],
+                            shell=False, stdin=subprocess.PIPE,
+                            stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE, encoding='utf8')
+    (output, dummy_err) = proc.communicate()
+    if proc.returncode == 0:
+        proc_lines = [item for item in output.splitlines()]
+        for line in proc_lines:
+            if line.startswith('/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/'):
+                line = line.replace('/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/', '')
+                if line:
+                    sep = '/'
+                    line = line.split(sep, 1)[0]
+                    return line
+
+def main():
+
+    if not chrome_installed():
+        print('Chrome not installed')
+        sys.exit(0)
+
+    current_chrome_version = get_chrome_version()
+
+    if current_chrome_version == '0':
+        print('Could not get current chrome version')
+        sys.exit(0)
+
+    if LooseVersion(current_chrome_version) &lt; LooseVersion(desired_chrome_version):
+        print('Chrome {} is installed and should be {}'.format(current_chrome_version, desired_chrome_version))
+        sys.exit(0)
+
+    running_version = running_chrome_version()
+    if not running_version:
+        print('Chrome is not running and seems up to date')
+        sys.exit(1)
+    elif LooseVersion(running_version) &lt; LooseVersion(desired_chrome_version):
+        print('Running version is {} and desired version is {}'.format(running_version, desired_chrome_version))
+        sys.exit(0)
+
+    print('Chrome is running and is up to date')
+    sys.exit(1)
+
+if __name__ == '__main__':
+    main()
+</string>
+                </dict>
+            </dict>
+            <key>Processor</key>
+            <string>MunkiPkginfoMerger</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_path</key>
+                <string>%pathname%</string>
+                <key>repo_subdirectory</key>
+                <string>%MUNKI_REPO_SUBDIR%</string>
+            </dict>
+            <key>Processor</key>
+            <string>MunkiImporter</string>
+        </dict>
+    </array>
+</dict>
+</plist>
