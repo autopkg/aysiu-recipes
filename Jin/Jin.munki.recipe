@@ -39,7 +39,7 @@
 		</dict>
 	</dict>
 	<key>ParentRecipe</key>
-	<string>com.github.sheagcraig.download.Jin</string>
+	<string>com.github.homebysix.download.Jin</string>
 	<key>Process</key>
 	<array>
 		<dict>
