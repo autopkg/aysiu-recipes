@@ -2,45 +2,45 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Description</key>
-	<string>Imports Fitbit Connect into Munki.</string>
-	<key>Identifier</key>
-	<string>com.github.aysiu.munki.Fitbit</string>
-	<key>Input</key>
-	<dict>
-		<key>NAME</key>
-		<string>FitbitConnect</string>
-		<key>MUNKI_REPO_SUBDIR</key>
-		<string>apps</string>
-		<key>pkginfo</key>
-		<dict>
-			<key>catalogs</key>
-			<array>
-				<string>testing</string>
-			</array>
-			<key>description</key>
-			<string>Fitbit Connect</string>
-			<key>category</key>
-			<string>Fitness</string>
-			<key>developer</key>
-			<string>Fitbit</string>
-			<key>display_name</key>
-			<string>Fitbit Connect</string>
-			<key>name</key>
-			<string>%NAME%</string>
-			<key>unattended_install</key>
-			<true/>
-			<key>uninstall_method</key>
-			<string>uninstall_script</string>
-			<key>unattended_uninstall</key>
-			<false/>
-			<key>uninstall_script</key>
-			<string>#!/bin/sh
-
-osascript -e 'tell application "/Applications/Fitbit Connect.app/Contents/MacOS/Fitbit Connect Menubar Helper.app" to quit'
-osascript -e 'tell application "/Applications/Fitbit Connect.app" to quit'
-osascript -e 'tell application "System Events" to delete login item "Fitbit Connect Menubar Helper"' 
-
+    <key>Description</key>
+    <string>Imports Fitbit Connect into Munki.</string>
+    <key>Identifier</key>
+    <string>com.github.aysiu.munki.Fitbit</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>FitbitConnect</string>
+        <key>MUNKI_REPO_SUBDIR</key>
+        <string>apps</string>
+        <key>pkginfo</key>
+        <dict>
+            <key>blocking_applications</key>
+            <array>
+                <string>Fitbit Connect</string>
+                <string>Fitbit Connect Menubar Helper</string>
+            </array>
+            <key>catalogs</key>
+            <array>
+                <string>testing</string>
+            </array>
+            <key>description</key>
+            <string>Fitbit Connect</string>
+            <key>category</key>
+            <string>Fitness</string>
+            <key>developer</key>
+            <string>Fitbit</string>
+            <key>display_name</key>
+            <string>Fitbit Connect</string>
+            <key>name</key>
+            <string>%NAME%</string>
+            <key>unattended_install</key>
+            <true/>
+            <key>uninstall_method</key>
+            <string>uninstall_script</string>
+            <key>unattended_uninstall</key>
+            <false/>
+            <key>uninstall_script</key>
+            <string>#!/bin/sh
 rm -rf "/Applications/Fitbit Connect.app"
 
 USER_PREFERENCES_DIR="$HOME/Library/Preferences/"
@@ -55,7 +55,7 @@ galileod_plist="${PLIST_DEST_DIR}${galileod_service}.plist"
 
 if [ -f $galileod_plist ]
 then
-	launchctl unload -wF $galileod_plist
+    launchctl unload -wF $galileod_plist
     rm -f $galileod_plist
 fi
 
@@ -106,97 +106,106 @@ GALILEO_APP_SUPPORT_DIR="/Library/Application Support/Galileo"
 rm -rf "${GALILEO_APP_SUPPORT_DIR}"
 
 exit 0
-			</string>
-		</dict>
-	</dict>
-	<key>MinimumVersion</key>
-	<string>0.2.0</string>
-	<key>ParentRecipe</key>
-	<string>com.github.hansen-m.download.Fitbit</string>
-	<key>Process</key>
-	<array>
+            </string>
+        </dict>
+    </dict>
+    <key>MinimumVersion</key>
+    <string>0.2.0</string>
+    <key>ParentRecipe</key>
+    <string>com.github.hansen-m.download.Fitbit</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Processor</key>
+            <string>FlatPkgUnpacker</string>
+            <key>Arguments</key>
+            <dict>
+                <key>flat_pkg_path</key>
+                <string>%pathname%/Install Fitbit Connect.pkg</string>
+                <key>destination_path</key>
+                <string>%RECIPE_CACHE_DIR%/pkg_unpack</string>
+                <key>purge_destination</key>
+                <true/>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>PkgRootCreator</string>
+            <key>Arguments</key>
+            <dict>
+                <key>pkgroot</key>
+                <string>%RECIPE_CACHE_DIR%/application_payload/Applications</string>
+                <key>pkgdirs</key>
+                <dict/>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>PkgPayloadUnpacker</string>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_payload_path</key>
+                <string>%RECIPE_CACHE_DIR%/pkg_unpack/Fitbit_Connect.pkg/Payload</string>
+                <key>destination_path</key>
+                <string>%RECIPE_CACHE_DIR%/application_payload/Applications</string>
+                <key>purge_destination</key>
+                <true/>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>MunkiInstallsItemsCreator</string>
+            <key>Arguments</key>
+            <dict>
+                <key>faux_root</key>
+                <string>%RECIPE_CACHE_DIR%/application_payload/Applications</string>
+                <key>installs_item_paths</key>
+                <array>
+                    <string>/Applications/Fitbit Connect.app</string>
+                </array>
+                <key>version_comparison_key</key>
+                <string>CFBundleShortVersionString</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>MunkiPkginfoMerger</string>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>MunkiPkginfoMerger</string>
+            <key>Arguments</key>
+            <dict>
+                <key>additional_pkginfo</key>
+                <dict>
+                    <key>version</key>
+                    <string>%version%</string>
+                </dict>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>MunkiImporter</string>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_path</key>
+                <string>%pathname%</string>
+                <key>repo_subdirectory</key>
+                <string>%MUNKI_REPO_SUBDIR%</string>
+            </dict>
+        </dict>
 		<dict>
+			<key>Processor</key>
+			<string>PathDeleter</string>
 			<key>Arguments</key>
-				<dict>
-					<key>flat_pkg_path</key>
-					<string>%pathname%/Install Fitbit Connect.pkg</string>
-					<key>destination_path</key>
+			<dict>
+				<key>path_list</key>
+				<array>
+					<string>%RECIPE_CACHE_DIR%/application_payload</string>
 					<string>%RECIPE_CACHE_DIR%/pkg_unpack</string>
-					<key>purge_destination</key>
-					<true/>
-				</dict>
-			<key>Processor</key>
-			<string>FlatPkgUnpacker</string>
+				</array>
+			</dict>
 		</dict>
-		<dict>
-			<key>Arguments</key>
-				<dict>
-					<key>pkgroot</key>
-					<string>%RECIPE_CACHE_DIR%/application_payload/Applications</string>
-					<key>pkgdirs</key>
-					<dict/>
-				</dict>
-			<key>Processor</key>
-			<string>PkgRootCreator</string>
-		</dict>
-		<dict>
-			<key>Arguments</key>
-				<dict>
-					<key>pkg_payload_path</key>
-					<string>%RECIPE_CACHE_DIR%/pkg_unpack/Fitbit_Connect.pkg/Payload</string>
-					<key>destination_path</key>
-					<string>%RECIPE_CACHE_DIR%/application_payload/Applications</string>
-					<key>purge_destination</key>
-					<true/>
-				</dict>
-			<key>Processor</key>
-			<string>PkgPayloadUnpacker</string>
-		</dict>
-		<dict>
-			<key>Arguments</key>
-				<dict>
-					<key>faux_root</key>
-					<string>%RECIPE_CACHE_DIR%/application_payload/Applications</string>
-					<key>installs_item_paths</key>
-					<array>
-						<string>/Applications/Fitbit Connect.app</string>
-					</array>
-				</dict>
-			<key>Processor</key>
-			<string>MunkiInstallsItemsCreator</string>
-		</dict>
-		<dict>
-			<key>Processor</key>
-			<string>MunkiPkginfoMerger</string>
-		</dict>
-		<dict>
-			<key>Processor</key>
-			<string>MunkiPkginfoMerger</string>
-			<key>Arguments</key>
-				<dict>
-					<key>additional_pkginfo</key>
-					<dict>
-						<key>version</key>
-						<string>%version%</string>
-						<key>blocking_applications</key>
-						<array>
-						</array>
-					</dict>
-				</dict>
-		</dict>
-		<dict>
-			<key>Arguments</key>
-				<dict>
-					<key>version_comparison_key</key>
-					<string>CFBundleVersion</string>
-					<key>pkg_path</key>
-					<string>%pathname%</string>
-					<key>repo_subdirectory</key>
-					<string>%MUNKI_REPO_SUBDIR%</string>
-				</dict>
-			<key>Processor</key>
-			<string>MunkiImporter</string>
-		</dict>
-	</array>
+    </array>
 </dict>
 </plist>
