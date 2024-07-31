@@ -25,7 +25,7 @@
 			<key>developer</key>
 			<string>Microsoft Corporation</string>
 			<key>display_name</key>
-			<string>minecraftpe</string>
+			<string>Minecraft Education</string>
 			<key>name</key>
 			<string>%NAME%</string>
 			<key>unattended_install</key>
