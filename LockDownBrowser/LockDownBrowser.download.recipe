@@ -11,7 +11,7 @@
         <dict>
         </dict>
         <key>MinimumVersion</key>
-        <string>0.2.0</string>
+        <string>1.1</string>
         <key>ParentRecipe</key>
         <string>com.github.nstrauss.download.RespondusLockDownBrowser</string>
         <key>Process</key>
