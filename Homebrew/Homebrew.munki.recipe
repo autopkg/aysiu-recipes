@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Imports Homebrew into Munki with tweaked installcheck_script.</string>
+    <key>Identifier</key>
+    <string>com.github.nstrauss.download.Homebrew</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>Homebrew</string>
+        <key>MUNKI_REPO_SUBDIR</key>
+        <string>apps/Homebrew</string>
+        <key>pkginfo</key>
+        <dict>
+            <key>catalogs</key>
+            <array>
+                <string>testing</string>
+            </array>
+            <key>description</key>
+            <string>The missing package manager for macOS.</string>
+            <key>category</key>
+            <string>Package Management</string>
+            <key>developer</key>
+            <string>%NAME%</string>
+            <key>display_name</key>
+            <string>%NAME%</string>
+            <key>name</key>
+            <string>%NAME%</string>
+            <key>unattended_install</key>
+            <true/>
+            <key>uninstall_method</key>
+            <string>uninstall_script</string>
+            <key>unattended_uninstall</key>
+            <false/>
+            <key>uninstall_script</key>
+            <string>#!/bin/bash
+
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
+</string>
+        </dict>
+    </dict>
+    <key>MinimumVersion</key>
+    <string>1.1.0</string>
+    <key>ParentRecipe</key>
+    <string>com.github.nstrauss.download.Homebrew</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Processor</key>
+            <string>MunkiPkginfoMerger</string>
+            <key>Arguments</key>
+            <dict>
+                <key>additional_pkginfo</key>
+                <dict>
+                    <key>installcheck_script</key>
+                    <string>#!/bin/zsh
+
+autoload is-at-least
+
+installed=1
+not_installed=0
+target_version="%version%"
+
+# optionally define an install user at /var/tmp/.homebrew_pkg_user.plist
+homebrew_pkg_user_plist="/var/tmp/.homebrew_pkg_user.plist"
+if [[ -f "${homebrew_pkg_user_plist}" ]] && [[ -n $(defaults read "${homebrew_pkg_user_plist}" HOMEBREW_PKG_USER) ]]
+then
+    homebrew_pkg_user=$(defaults read /var/tmp/.homebrew_pkg_user HOMEBREW_PKG_USER)
+# otherwise, get valid logged in user
+else
+    homebrew_pkg_user=$(echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }')
+fi
+
+non_users=(_mbsetupuser loginwindow root)
+if [[ ${non_users[(r)$homebrew_pkg_user]} == $homebrew_pkg_user ]]
+then
+    /bin/echo "No user account is logged in, so considering \"installed\" for now."
+    exit "$installed"
+fi
+
+if [[ $(uname -m) == "x86_64" ]]; then
+    brew="/usr/local/Homebrew/bin/brew"
+else
+    brew="/opt/homebrew/bin/brew"
+fi
+
+if [[ ! -f "$brew" ]]; then
+    /bin/echo "$brew doesn't exist."
+    exit "$not_installed"
+fi
+
+current_version=$(/usr/bin/su -l $homebrew_pkg_user -c "$brew --version" | /usr/bin/head -n 1 | /usr/bin/awk '{ print $2 }')
+
+if    is-at-least "$target_version" "$current_version"; then
+    /bin/echo "$current_version is greater than or equal to $target_version"
+    exit "$installed"
+else
+    /bin/echo "$current_version isn't at least $target_version."
+    exit "$not_installed"
+fi
+					</string>
+                </dict>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>MunkiImporter</string>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_path</key>
+                <string>%pathname%</string>
+                <key>repo_subdirectory</key>
+                <string>%MUNKI_REPO_SUBDIR%</string>
+            </dict>
+        </dict>
+    </array>
+</dict>
+</plist>
