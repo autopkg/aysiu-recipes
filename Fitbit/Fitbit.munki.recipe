@@ -119,7 +119,7 @@ exit 0
             <key>Arguments</key>
             <dict>
                 <key>warning_message</key>
-                <string>This recipe has been deprecated. As of October 2022 Fitbit have discontuned their macOS Application. Please remove recipe from your runs.
+                <string>This recipe has been deprecated. As of October 2022 Fitbit have discontinued their macOS Application. Please remove recipe from your runs.
 
 For further information please see the following community post:https://community.fitbit.com/t5/Windows-10-App/Fitbit-Connect-will-be-discontinued-on-Oct-13-2022/m-p/5193900#M19569</string>
             </dict>
