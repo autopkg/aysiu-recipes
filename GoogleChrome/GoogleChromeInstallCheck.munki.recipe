@@ -66,6 +66,8 @@ fi
                     <key>installcheck_script</key>
                     <string>#!/bin/zsh
 
+# Based loosely on https://github.com/grahamgilbert/chrome_update_notifier/blob/master/payload/Library/Management/chrome_update_notifier.py
+
 autoload is-at-least
 
 desired_version='%version%'
