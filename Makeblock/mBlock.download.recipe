@@ -19,6 +19,17 @@
     <key>Process</key>
     <array>
         <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>warning_message</key>
+                <string>This recipe has been deprecated. The latest version of mBlock for macOS doesn't work on macOS 10.15 or higher. Please remove recipe from your runs.
+
+For further information please see https://mblock.cc/pages/downloads</string>
+            </dict>
+            <key>Processor</key>
+            <string>DeprecationWarning</string>
+        </dict>
+        <dict>
             <key>Processor</key>
             <string>URLTextSearcher</string>
             <key>Arguments</key>
