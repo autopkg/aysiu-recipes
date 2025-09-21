@@ -29,7 +29,7 @@
                         <string>%USER_AGENT%</string>
                 </dict>
                 <key>url</key>
-                <string>http://www.mblock.cc/software-1/mblock/mblock5/#Download</string>
+                <string>https://www.mblock.cc/software-1/mblock/mblock5/#Download</string>
                 <key>re_flags</key>
                 <array>
                     <string>IGNORECASE</string>

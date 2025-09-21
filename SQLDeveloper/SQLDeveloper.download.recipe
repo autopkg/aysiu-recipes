@@ -16,7 +16,7 @@
         <key>AUTHPARAM</key>
         <string>YOURAUTHPARAM</string>
         <key>SEARCH_URL</key>
-        <string>http://www.oracle.com/technetwork/developer-tools/sql-developer/downloads/index.html</string>
+        <string>https://www.oracle.com/technetwork/developer-tools/sql-developer/downloads/index.html</string>
     </dict>
     <key>MinimumVersion</key>
     <string>0.2.0</string>
