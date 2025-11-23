@@ -5,7 +5,7 @@
     <key>Description</key>
     <string>Downloads latest SQL Developer
     AuthParam to your login's AuthParam
-    
+
     At the moment, this recipe is just a proof-of-concept. Unfortunately, I can't find a way yet to get the AUTHPARAM to stick. It seems to be a one-time use thing.</string>
     <key>Identifier</key>
     <string>com.github.aysiu.download.SQLDeveloper</string>
@@ -55,6 +55,10 @@
         </dict>
         <dict>
             <key>Processor</key>
+            <string>EndOfCheckPhase</string>
+        </dict>
+        <dict>
+            <key>Processor</key>
             <string>Unarchiver</string>
             <key>purge_destination</key>
             <true/>
@@ -65,11 +69,7 @@
         </dict>
         <dict>
             <key>Processor</key>
-            <string>EndOfCheckPhase</string>
-        </dict>
-        <dict>   
-            <key>Processor</key>   
-            <string>CodeSignatureVerifier</string>   
+            <string>CodeSignatureVerifier</string>
             <key>Arguments</key>
             <dict>
                 <key>input_path</key>
